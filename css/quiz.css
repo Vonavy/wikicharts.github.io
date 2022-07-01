@@ -1,7 +1,3 @@
-.wikicharts__content > svg {
-    display: none;
-}
-
 .quiz {
     display: flex;
     flex-direction: column;

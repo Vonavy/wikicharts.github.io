@@ -1,0 +1,73 @@
+.wikicharts__content > svg {
+    display: none;
+}
+
+.chartlist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chartlist__title {
+    text-align: center;
+}
+
+.chartlist__content {
+    background-color: #c0e2ff;
+    border-radius: 3px;
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+}
+
+.chartlist__left {
+    display: flex;
+    height: 300px;
+    justify-content: center;
+    width: 300px;
+}
+
+@media screen and (max-width: 1000px) {
+    .chartlist__content {
+        flex-direction: column;
+    }
+
+    .chartlist__left {
+        margin-inline: auto;
+    }
+}
+
+.chartlist__right {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chartlist__value {
+    border-radius: 3px;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.chartlist__value-title {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    margin: 0;
+}
+
+.chartlist__value-percentage {
+    background-color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.chartlist__value-content {
+    border-top: 1px solid #1a1a1a;
+    padding-top: 5px;
+}

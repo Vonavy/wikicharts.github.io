@@ -117,3 +117,68 @@ function renderResult(box, result, label) {
     for (var k = 0; k < result.length; k++)
         renderInfoBox([box[0] + box[3] + Boxpadding + k * width, box[1] + ResultLabelheight, width - Boxpadding, box[3] - ResultLabelheight], result[k])
 }
+
+function createPieChart(index, chartData) {
+    let id;
+    switch (index) {
+        case 0: id = "politics"; break;
+        case 1: id = "communication"; break;
+        case 2: id = "safety"; break;
+        case 3: id = "extpolitics"; break;
+        default: return;
+    }
+
+    let valuesListElement = document.querySelector(`.chartlist__item--${id} .chartlist__right`);
+    
+    console.log(chartData);
+
+    let chartLabels = [],
+        chartValues = [],
+        chartColors = [];
+
+    chartData.forEach(el => {
+        chartLabels.push(LANGUAGES[el[0]][curlang]);
+        chartValues.push(el[1] / 10);
+        chartColors.push(COLORS[ID2C[el[0]]]);
+
+        let valueElement = document.createElement("div");
+        valueElement.classList.add("chartlist__value");
+        valueElement.style.backgroundColor = COLORS[ID2C[el[0]]];
+
+        let valueElement_title = document.createElement("h3");
+        valueElement_title.classList.add("chartlist__value-title");
+
+        let valueElement_percentage = document.createElement("div");
+        valueElement_percentage.classList.add("chartlist__value-percentage");
+        valueElement_percentage.innerHTML = (el[1] / 10).toLocaleString() + "<sup>%</sup>";
+
+        valueElement_title.append(valueElement_percentage);
+
+        let valueElement_label = document.createElement("span");
+        valueElement_label.classList.add("chartlist__value-label");
+        valueElement_label.innerText = LANGUAGES[el[0]][curlang];
+
+        valueElement_title.append(valueElement_label);
+
+        valueElement.append(valueElement_title);
+
+        let valueElement_content = document.createElement("div");
+        valueElement_content.classList.add("chartlist__value-content");
+        valueElement_content.innerText = LANGUAGES[el[0] + "desc"][curlang];
+
+        valueElement.append(valueElement_content);
+
+        valuesListElement.append(valueElement);
+    })
+
+    new Chart(document.getElementById("results-chart-" + id), {
+        type: "pie",
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                data: chartValues,
+                backgroundColor: chartColors
+            }]
+        }
+    });
+}

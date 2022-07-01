@@ -32,7 +32,7 @@
     <meta name="twitter:image:alt" content="Логотип WikiCharts">
 
     <link rel="stylesheet" href="./css/basic.css">
-    <link rel="stylesheet" href="./css/quiz.css">
+    <link rel="stylesheet" href="./css/results.css">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0JY69PX91M"></script>
@@ -47,6 +47,7 @@
     <script type="text/javascript" src="render.js"></script>
     <script type="text/javascript" src="boxdraw.js"></script>
     <script type="text/javascript" src="serialize.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
     <script>
         d3.tsv("translations/translations.tsv").then(LANGUAGEDATA => {
             LANGUAGES = {}
@@ -85,25 +86,26 @@
                 renderResult([100, H * i + header, 1600, H - Resultpadding], result[i], d)
             })
 
-            //magic, somehow works
-            var canvas = center.append('canvas').node()
-            var mainsvg = svg.node()
-            //.append("a").on("click",()=>{}).attr("href",window.location.href)
-            img = center.append("img").classed("wikicharts__result", true).attr("width", "100%").node()
-            var ctx = canvas.getContext("2d")
-            var data = mainsvg.innerHTML
-            var loader = new Image
-            loader.width = canvas.width = svg.attr('width')
-            loader.height = canvas.height = svg.attr('height')
-            loader.onload = () => {
-                ctx.drawImage(loader, 0, 0, loader.width, loader.height)
-                img.src = canvas.toDataURL("image/png")
-                svg.remove()
-                d3.select("canvas").remove()
-            }
-            var svgXML = (new XMLSerializer).serializeToString(mainsvg)
-            loader.src = 'data:image/svg+xml,' + encodeURIComponent(svgXML)
+            // var canvas = center.append('canvas').node()
+            // var mainsvg = svg.node()
+            // img = center.append("img").classed("wikicharts__result", true).attr("width", "100%").node()
+            // var ctx = canvas.getContext("2d")
+            // var data = mainsvg.innerHTML
+            // var loader = new Image
+            // loader.width = canvas.width = svg.attr('width')
+            // loader.height = canvas.height = svg.attr('height')
+            // loader.onload = () => {
+            //     ctx.drawImage(loader, 0, 0, loader.width, loader.height)
+            //     img.src = canvas.toDataURL("image/png")
+            //     svg.remove()
+            //     d3.select("canvas").remove()
+            // }
+            // var svgXML = (new XMLSerializer).serializeToString(mainsvg)
+            // loader.src = 'data:image/svg+xml,' + encodeURIComponent(svgXML)
 
+            var result = decode(new URL(window.location.href).searchParams.get("result"));
+            
+            result.forEach((el, i) => createPieChart(i, el));
         });
     </script>
 </head>
@@ -122,6 +124,46 @@
         </aside>
         <main class="content wikicharts__content">
             <h1 class="wikicharts__title">Результат</h1>
+            <div class="wikicharts__charts chartlist">
+                <div class="chartlist__item chartlist__item--politics">
+                    <h2 class="chartlist__title">Политика</h2>
+                    <div class="chartlist__content">
+                        <div class="chartlist__left">
+                            <canvas class="chartlist__chart" id="results-chart-politics" width="300" height="300" aria-label="Результат WikiCharts" role="img"></canvas>
+                        </div>
+                        <div class="chartlist__right"></div>
+                    </div>
+                </div>
+                <div class="chartlist__item chartlist__item--communication">
+                    <h2 class="chartlist__title">Общение</h2>
+                    <div class="chartlist__content">
+                        <div class="chartlist__left">
+                            <canvas class="chartlist__chart" id="results-chart-communication" width="300" height="300" aria-label="Результат WikiCharts" role="img"></canvas>
+                        </div>
+                        <div class="chartlist__right"></div>
+                    </div>
+                </div>
+                <div class="chartlist__item chartlist__item--safety">
+                    <h2 class="chartlist__title">Безопасность</h2>
+                    <div class="chartlist__content">
+                        <div class="chartlist__left">
+                            <canvas class="chartlist__chart" id="results-chart-safety" width="300" height="300" aria-label="Результат WikiCharts" role="img"></canvas>
+                        </div>
+                        <div class="chartlist__right"></div>
+                        </div>
+                </div>
+                <div class="chartlist__item chartlist__item--extpolitics">
+                    <h2 class="chartlist__title">Внешняя политика</h2>
+                    <div class="chartlist__content">
+                        <div class="chartlist__left">
+                            <canvas class="chartlist__chart" id="results-chart-extpolitics" width="300" height="300" aria-label="Результат WikiCharts" role="img"></canvas>
+                        </div>
+                        <div class="chartlist__right"></div>
+                    </div>
+                </div>
+            </div>
+            <script>
+            </script>
         </main>
     </article>
 </body>
